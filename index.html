@@ -1,82 +1,172 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>First Love</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>First Love</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+      background-color: #f9f6f1;
+    }
+    .cover {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+    }
+    .cover h1 {
+      font-size: 4em;
+      margin: 0;
+    }
+    .cover button {
+      margin-top: 30px;
+      font-size: 1.5em;
+      padding: 10px 30px;
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .book-section {
+      display: none;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+    .book {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 1000px;
+      height: 100%;
+      background: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    .page {
+      width: 50%;
+      padding: 40px;
+      box-sizing: border-box;
+      border-right: 1px solid #ccc;
+      overflow-y: auto;
+    }
+    .page:last-child {
+      border-right: none;
+    }
+    .nav-buttons {
+      margin-top: 20px;
+    }
+    .nav-buttons button {
+      font-size: 1.5em;
+      padding: 10px 20px;
+      margin: 0 20px;
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
 </head>
-<body style="background-color:white;">
-    <h1 style="color: black; text-align:center">First Love</h1>
+<body>
+  <div class="cover">
+    <h1>First Love</h1>
+    <button onclick="startReading()">Read</button>
+  </div>  <div class="book-section" id="bookSection">
+    <div class="book" id="book">
+      <div class="page" id="leftPage"></div>
+      <div class="page" id="rightPage"></div>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">&lt;</button>
+      <button onclick="nextPage()">&gt;</button>
+    </div>
+  </div>  <script>
+    const pages = [
+      `**About the Author**<br><br>Written by a passionate young storyteller sharing their bittersweet first experience of love, loss, and learning. This narrative captures the raw emotion of youth and the beauty of connection.`,
 
-    <p style="color:black">It all started when I was just laying on my bed. I was so bored, my friends were all busy, the others were doing school activities while others were just playing. I was really bored and I thought I could talk to a new person or a new friend. I always thought having new friends was always a good idea.</p>
+      `It all started when I was just laying on my bed. I was so bored—my friends were all busy. The others were doing school activities while some were just playing. I was really bored and thought I could talk to a new person, maybe make a new friend. I always thought having new friends was a good idea.<br><br>
+      I asked my friend named Ahron if he had any friends I could talk to. I also told him I wanted to talk to a girl haha. He told me about this girl named Ciara. I searched for her socials and finally found her. I started talking to her and wow—she's so kind, sweet, and friendly.<br><br>
+      We started talking, asking each other about hobbies, getting to know each other. I already felt comfortable around her. She’s just so fun to talk to.`,
 
-    <p style="color:black">I then asked my friend named Ahron if he had some friends that I could talk to. I also told him that I wanted to talk to a girl haha. Well, he told me about this girl, her name was Ciara. Of course, I started searching for her social, then I finally found it. I started talking to her and wow. She's so kind, sweet, and friendly.</p>
+      `After a few more weeks, we had gotten to know each other very well. We knew each other's birthdays, favorite foods, favorite colors. We kept on talking like there was no tomorrow.<br><br>
+      After a few more months, I realized I had feelings for Ciara. I confessed. She told me she liked me as well, so I courted her.<br><br>
+      My friends thought Ciara and I should meet up. I thought it was a bad idea. I mean, we’d only started talking for a few months and now we’re gonna meet up?`,
 
-    <p style="color:black">We started talking, asking each other's hobbies. We were getting to know each other already. While we were talking, I think I was already feeling comfortable around her. She's just so fun to talk to.</p>
+      `I was scared. I was scared because I knew I was ugly. I told her I didn’t want to meet up. I told her I was scared of judgment, scared she would leave me. She reassured me, saying, “Don’t worry, I don’t care about looks. All I want is your personality.”<br><br>
+      The night before we met, I was both excited and scared. After school, I went to the meet-up place with my other friends. It was very traffic. Ciara and Ahron were waiting at a convenience store. I arrived late because of traffic. I saw her—Ciara sitting on a bench—and I just stood there, looking at her gorgeous, pretty, perfect face.`,
 
-    <p style="color:black">After a few more weeks, we had gotten to know each other very well. We knew each other's birthdays, favorite food, favorite color. We kept on talking like there was no tomorrow.</p>
+      `When none of us were making a move, Ahron pushed me in front of Ciara. I fell onto the same bench where she was sitting. I stood up and was about to sit down again, but before I could, Ciara hugged me. I hugged her back.<br><br>
+      I was nervous. That was the first girl I had ever hugged. We talked for minutes—about how we were, how school was. Then, she randomly gave me her hair tie. She said, “Take good care of it. I’ll give that to you so that whenever you miss me, just hold on to it.”<br><br>
+      I was so glad. I hugged her.`,
 
-    <p style="color:black">After a few more months, I figured that I had feelings for Ciara. I confessed. She told me that she likes me as well, so I courted her.</p>
+      `We went inside the convenience store. I was still shy, so I just talked to Ahron. Then he asked me, “Why aren’t you talking to her, bro?” I didn’t answer. I couldn’t—not with Ciara right behind me. While I was laughing it off, Ciara hugged me from behind. I felt butterflies. I was really blushing—no lies.<br><br>
+      After buying snacks, we looked for a spot to hang out. While we were crossing the road, Mary held my hand. I definitely fell even harder. It was my first time holding a girl’s hand. Her hands were soft—I didn’t want to let go.`,
 
-    <p style="color:black">My friends thought me and Ciara should meet up. I really did think that it was a bad idea, I mean we only started talking for a few months and now we're gonna meet up?</p>
+      `We arrived and ate the snacks. After a few minutes, Jacob had to go, leaving me and Mary alone. We waved goodbye to Ahron. Then it was just us.<br><br>
+      We talked about random things. We sat there for hours—eating, talking, watching the sunset. We were holding hands, leaning on each other. It was the best day of my life. Eventually, Mary had to go home before dark.<br><br>
+      I led her to the bus station. I hugged her and she got on the bus. I waved goodbye. I smiled all the way home, thinking about everything that happened.`,
 
-    <p style="color:black">I was scared. I'm scared because I know myself that I'm ugly. I told her I didn't wanna meet up, I told her I was scared. I was scared of judgment. I was scared she's gonna leave me. She then told me: Don't worry, I don't care about looks, all I want is your personality. She really reassured me. She made me know that I had nothing to be scared of.</p>
+      `When I got home, I texted her and asked if she got home safe. She responded quickly—yes. We talked for minutes and went to sleep.<br><br>
+      I had a good sleep that night. So good I even dreamed about what happened that day. I woke up happy. I wished it could all happen again.<br><br>
+      I wanted to meet her again, but she had strict parents. She only found a good excuse to meet that first time. She said we could maybe meet again in a few weeks.`,
 
-    <p style="color:black">The night before we met, I was excited and scared at the same time. After school, me and my other friends went to the meetup place. It was very traffic. Ciara and Ahron were waiting for us at a convenience store. I arrived late because of the stupid traffic. Then yeah, I saw her. Ciara was just sitting on a bench and I just stood there, looking at her gorgeous, pretty, perfect face.</p>
+      `It didn’t matter much. I was just happy I met her and could still talk to her, even if only through texting.<br><br>
+      After a few more months, we had a healthy relationship. Even with small problems, we always found ways to solve them.<br><br>
+      One day, she told me something. She said her old crush texted her, asking to meet. She told me their story—they liked each other in grade 3, but her mom found out and transferred her to another school.`,
 
-    <p style="color:black">When none of us were making a move, Ahron pushed me in front of Ciara. I fell on the same bench where Ciara was sitting. I was standing up and was about to sit down as well, but when I was about to sit down, Ciara hugged me. I hugged her back.</p>
+      `I told Ciara it was fine to meet him. I didn’t mind, though deep down I was jealous. I played games to try and forget.<br><br>
+      A few days later, she grew distant. Cold. I felt the spark vanishing.<br><br>
+      A few weeks later, she told me she got back with him. I was devastated. I cried all night. I wondered what I did wrong, what I did to deserve it.`,
 
-    <p style="color:black">I was nervous since that was the first ever girl that I've hugged.</p>
+      `Days later, Ciara blocked me on all socials. I wanted to end myself.<br><br>
+      Then, she unblocked me. I said, “I still love you,” thinking she wouldn’t reply—but she did.<br><br>
+      We talked for a few minutes. I asked if we could meet one last time, not expecting her to agree—but she did.`,
 
-    <p style="color:black">We talked there for minutes, talking about how we were, how school was, and stuff. After a few minutes, she randomly gave me her hair tie. She said: Take good care of it, I'll give that to you so that whenever you miss me just hold on to that hair tie. I was so glad and hugged her.</p>
+      `The day came. I saw her from afar and walked toward her. I wanted to hug her, but I was too shy—Ahron was there. He asked if I had anything to say, but I was speechless.<br><br>
+      When he left, Ciara said she couldn’t stay long. When she was about to leave, I hugged her tight. I didn’t want to let go. She hugged back and said, “It’s okay.”<br><br>
+      People saw us hugging in public. They said we looked cute. I was about to cry.`,
 
-    <p style="color:black">After that, we went inside the convenience store. I was still shy towards her so I just talked to Ahron while we were inside. Then Ahron asked me: Why aren't you talking to her bro? I didn't wanna answer, I can't just tell the reason why. Ciara was literally behind me. While I was just laughing it off, Ciara hugged me from behind. I felt butterflies. I was really blushing that time, no lies.</p>
+      `When she left, I sobbed. I regretted not saying anything when I was with her.<br><br>
+      And yeah… after that day, we didn’t talk anymore.<br><br>
+      Maybe she was the right person, just at the wrong time.<br><br>
+      Or maybe we weren’t meant to be at all.<br><br>
+      First love has to be the worst.`
+    ];
 
-    <p style="color:black">After we bought some snacks, we went outside and looked for a spot to hang out. While we were crossing the road, Ciara held my hand. I definitely fell even harder for her. It was my first time holding a girl's hand. Her hands were soft, I didn't wanna let go.</p>
+    let pageIndex = 0;
 
-    <p style="color:black">We finally arrived and ate all the snacks we bought. After a few minutes, Ahron had to go, leaving me and Ciara alone. We said goodbye to Ahron, waving goodbye while he walked away.</p>
+    function startReading() {
+      document.querySelector('.cover').style.display = 'none';
+      document.getElementById('bookSection').style.display = 'flex';
+      renderPages();
+    }
 
-    <p style="color:black">Me and Ciara talked about some literally random stuff. We sat there eating, talking for hours till sunset. We watched the sunset, we were holding hands, sitting, leaning onto each other. It was the best day in my entire life. After a few more minutes, Ciara had to go since she needed to get home before dark.</p>
+    function renderPages() {
+      document.getElementById('leftPage').innerHTML = pages[pageIndex] || "";
+      document.getElementById('rightPage').innerHTML = pages[pageIndex + 1] || "";
+    }
 
-    <p style="color:black">I led her to the bus station. I hugged her and she got into the bus. I waved her goodbye as the bus left. I went home as well since it was getting dark. While I was riding the bus, I couldn't help but smile and think about the things that happened that day.</p>
+    function nextPage() {
+      if (pageIndex + 2 < pages.length) {
+        pageIndex += 2;
+        renderPages();
+      }
+    }
 
-    <p style="color:black">When I got home, I texted her, asking if she got home safe. She responded quickly, saying: Yes. We talked for minutes and then went to sleep.</p>
-
-    <p style="color:black">I really had a good sleep that night. It was so good that I even dreamed about what happened that day. I woke up happy, I wished all of that happened again.</p>
-
-    <p style="color:black">I wanted to meet her again, but she had strict parents. She just found a good excuse to meet up with me and said she can't meet me again. She told me that we can meet up maybe in a few weeks.</p>
-
-    <p style="color:black">It didn't really matter that much. I was happy I met her and could still talk to her, even though it's just through texting.</p>
-
-    <p style="color:black">After a few more months, we really had a healthy relationship. Even though we had small problems, we both kept on finding a way to solve the problems we had.</p>
-
-    <p style="color:black">One day, she said something to me. And I was not really happy nor mad about it. She told me that her old crush texted her and asked her if she wanted to meet up. She told me the story about her and her old crush.</p>
-
-    <p style="color:black">That guy was a grade 3 classmate of hers, and they liked each other, but her mom found out and Ciara transferred to another school. They never talked since then.</p>
-
-    <p style="color:black">I told Ciara that it was fine to meet him. I didn't really mind it, although I was really feeling jealous. But I just played some games to try and forget it.</p>
-
-    <p style="color:black">A few days after that, she became more distant towards me. She became cold, frozen cold. I was starting to feel like the spark was vanishing.</p>
-
-    <p style="color:black">After a few weeks, she told me that she got back with that guy. I was really devastated. I cried all night, thinking where I went wrong, thinking what I did to deserve it, thinking where did I go wrong?</p>
-
-    <p style="color:black">A few days later, Ciara blocked me on all my socials. I wanted to end myself.</p>
-
-    <p style="color:black">Then,</p>
-
-    <p style="color:black">I saw that Ciara unblocked me, and I said I still love you thinking she wouldn't respond. But she did.</p>
-
-    <p style="color:black">We talked for a few minutes. I asked her if I could meet her one last time, knowing she wouldn't agree. But she did?..</p>
-
-    <p style="color:black">Then the day that we would meet up came. I saw her from afar and walked towards her. I wanted to hug her but I was so shy because Ahron was there. He asked me if I wanted to say something but I was just so speechless.</p>
-
-    <p style="color:black">But when he left, Ciara told me she couldn't stay too long. So when she was about to leave I hugged her, tight. I didn't wanna let go. She hugged me too, saying it's okay.</p>
-
-    <p style="color:black">Then yeah, a lot of people saw us hugging. We were in public and those people were like saying that we were cute, but I was just about to cry.</p>
-
-    <p style="color:black">When she left, I was sobbing but I couldn't do anything. I regret not saying anything while I was there with her. And yeah after that day, we didn't talk anymore. Maybe she's the right person but it's just the wrong time.</p>
-
-    <p style="color:black">Or maybe we weren't meant to be at all.</p>
-
-    <p style="color:black">First love has to be the worst.</p>
-</body>
+    function prevPage() {
+      if (pageIndex - 2 >= 0) {
+        pageIndex -= 2;
+        renderPages();
+      }
+    }
+  </script></body>
 </html>
